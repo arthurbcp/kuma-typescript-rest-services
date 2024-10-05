@@ -1,9 +1,9 @@
 import { IHttpProvider } from "../providers/http";
-import { {{- range $index, $service := .Data}}{{if $index}},{{end}}{{toPascalCase .}}Service{{end}} } from "./";
+import { {{- range $index, $service := .data}}{{if $index}},{{end}}{{toPascalCase .}}Service{{end}} } from "./";
 
 export const buildServices = (provider: IHttpProvider) => {
   return {
-  {{- range .Data}}
+  {{- range .data}}
     {{toCamelCase .}}: new {{toPascalCase .}}Service(provider),
   {{- end -}}
   };

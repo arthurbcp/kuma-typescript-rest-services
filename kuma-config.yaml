@@ -1,54 +1,54 @@
 {{$base := . }}
 
 #  Global variables to be used in all the templates.
-Global:
-  ProjectName: "myproject"
-  ProjectRepository: "gihub.com/arthurbcp/ts-test-services"
-  ProjectDescription: "This is a sample project"
+global:
+  projectName: "myproject"
+  projectRepository: "gihub.com/arthurbcp/ts-test-services"
+  projectDescription: "This is a sample project"
 
-# structure of folders and files that will be generated
-Structure:
+# Structure of folders and files that will be generated
+structure:
   src:
       index.ts:
-        Template: Index.gtpl
+        template: Index.gtpl
       providers:
         http:
           index.ts:
-            Template: ProviderExporter.gtpl
+            template: ProviderExporter.gtpl
             
           http_provider.ts:
-            Template: HttpProvider.gtpl
+            template: HttpProvider.gtpl
           http_provider_interface.ts:
-            Template: HttpProviderInterface.gtpl
+            template: HttpProviderInterface.gtpl
           dto.ts:
-            Template: HttpProviderDTO.gtpl
+            template: HttpProviderDTO.gtpl
       dto:
         index.ts:
-          Template: DTOExporter.gtpl
-          Data: 
+          template: DTOExporter.gtpl
+          data: 
             {{range $name, $prop := $base.definitions }}{{ if eq $prop.type "object" }}
               - {{ $name }}
             {{end}}{{end}}
             
         {{range $name, $prop := $base.definitions }}{{ if eq $prop.type "object" }}{{ toSnakeCase $name }}.ts:
-          Template: DTO.gtpl
+          template: DTO.gtpl
           Includes:
             - TypeResolver.gtpl
-          Data:
+          data:
             name: {{ $name }}
             {{ range toYaml . }}{{ . }}
             {{end}}
         {{end}}{{end}}
       services:
         builder.ts:
-          Template: ServiceBuilder.gtpl
-          Data:
+          template: ServiceBuilder.gtpl
+          data:
             {{range $base.tags}}
             - {{.name}} 
             {{end}}
         index.ts:
-          Template: ServiceExporter.gtpl
-          Data:
+          template: ServiceExporter.gtpl
+          data:
             {{range $base.tags}}
             - {{.name}}
             {{end}}
@@ -56,11 +56,11 @@ Structure:
         {{range $base.tags}}{{toSnakeCase .name}}:
           {{$tag := .}}
           service.ts:
-            Template: Service.gtpl
+            template: Service.gtpl
             Includes:
               - TypeResolver.gtpl
               - ResponseTypeResolver.gtpl
-            Data:
+            data:
               name: {{$tag.name}}
               description:  {{$tag.description}}
               operations:
@@ -72,6 +72,6 @@ Structure:
         {{end}}
 
   package.json:
-    Template: PackageJson.gtpl
+    template: PackageJson.gtpl
   tsconfig.json:
-    Template: TsConfig.gtpl
+    template: TsConfig.gtpl

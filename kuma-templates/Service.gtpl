@@ -1,7 +1,7 @@
 import { AxiosRequestConfig, AxiosResponse } from "axios";
 import { IHttpProvider } from "../../providers/http/http_provider_interface";{{"\n"}}
 {{- $imports := list -}}
-{{- range $path, $op :=  .Data.operations -}}
+{{- range $path, $op :=  .data.operations -}}
   {{- range  $method, $data := $op -}}
     {{- $body := getParamsByType $data.parameters "body" -}}
     {{- range $body -}}
@@ -36,17 +36,17 @@ import { {{toPascalCase $import}} } from "../../dto/{{ toSnakeCase $import }}"{{
 {{- end -}}
 {{"\n"}}
 
-{{- if .Data.description }}
-// {{ .Data.description }}
+{{- if .data.description }}
+// {{ .data.description }}
 {{- end }}
-export class {{toPascalCase .Data.name}}Service {
+export class {{toPascalCase .data.name}}Service {
   private http: IHttpProvider;
 
   constructor(http: IHttpProvider) {
     this.http = http;
   }
   {{"\n"}}
-  {{- range $path, $op :=  .Data.operations -}}
+  {{- range $path, $op :=  .data.operations -}}
   {{ range  $method, $data := $op }}
     {{- $params := getParamsByType $data.parameters "path" -}}
     {{- $query := getParamsByType $data.parameters "query" -}}
