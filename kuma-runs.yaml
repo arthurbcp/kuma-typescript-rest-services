@@ -1,0 +1,7 @@
+initial:
+  - input:
+      msg: "Enter the local file or the file URL in the Open API 2.0 format with the data you want to generate the library:"
+      out: variables
+  - cmd: kuma-cli generate -v {{.variables}}
+  - cmd: npm i
+  - cmd: npm run format
