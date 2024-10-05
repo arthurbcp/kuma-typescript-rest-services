@@ -32,7 +32,7 @@ structure:
             
         {{range $name, $prop := $base.definitions }}{{ if eq $prop.type "object" }}{{ toSnakeCase $name }}.ts:
           template: DTO.gtpl
-          Includes:
+          includes:
             - TypeResolver.gtpl
           data:
             name: {{ $name }}
@@ -57,7 +57,7 @@ structure:
           {{$tag := .}}
           service.ts:
             template: Service.gtpl
-            Includes:
+            includes:
               - TypeResolver.gtpl
               - ResponseTypeResolver.gtpl
             data:
