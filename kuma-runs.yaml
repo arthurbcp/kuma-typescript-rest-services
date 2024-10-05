@@ -1,6 +1,13 @@
 initial:
   - input:
-      msg: "Enter the local file or the file URL in the Open API 2.0 format with the data you want to generate the library:"
+      label: "Enter the local file or the file URL in the Open API 2.0 format with the data you want to generate the library:"
+      other: true
+      multi: true
+      options:
+        - label: "JSON file"
+          value: swagger.json
+        - label: "YAML file"
+          value: swagger.yaml
       out: variables
   - cmd: kuma-cli generate -v {{.variables}}
   - cmd: npm i
