@@ -1,4 +1,5 @@
 {{$base := . }}
+
 #  Global variables to be used in all the templates.
 Global:
   ProjectName: "myproject"
@@ -52,17 +53,18 @@ Structure:
             - {{.name}}
             {{end}}
 
-        {{range $base.tags}}{{.name}}:
-          {{$tag := .name}}
+        {{range $base.tags}}{{toSnakeCase .name}}:
+          {{$tag := .}}
           service.ts:
             Template: Service.gtpl
             Includes:
               - TypeResolver.gtpl
               - ResponseTypeResolver.gtpl
             Data:
-              name: {{$tag}}
+              name: {{$tag.name}}
+              description:  {{$tag.description}}
               operations:
-              {{range $path, $req := getPathsByTag $base.paths $tag}}
+              {{range $path, $req := getPathsByTag $base.paths $tag.name}}
                 {{$path}}: 
                     {{range toYaml $req}}{{.}}
                     {{end}}

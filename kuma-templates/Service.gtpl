@@ -5,8 +5,12 @@ import { IHttpProvider } from "../../providers/http/http_provider_interface";{{"
   {{- range  $method, $data := $op -}}
     {{- $body := getParamsByType $data.parameters "body" -}}
     {{- range $body -}}
-      {{- if getRefFrom .schema -}}
-        {{- $import := getRefFrom .schema -}}
+      {{- $schema := .schema }}
+      {{- if eq $schema.type "array" -}}
+          {{$schema = $schema.items }}
+      {{- end -}}
+      {{- if getRefFrom $schema -}}
+        {{- $import := getRefFrom $schema -}}
         {{- $hasImport := $imports | has $import }}
         {{- if not $hasImport -}}
           {{- $imports = $imports | append $import -}}
@@ -15,8 +19,12 @@ import { {{toPascalCase $import}} } from "../../dto/{{ toSnakeCase $import }}"{{
       {{- end -}}
     {{- end -}}
     {{- range $data.responses -}}
-      {{- if getRefFrom .schema -}}
-        {{- $import := getRefFrom .schema -}}
+      {{- $schema := .schema }}
+      {{- if eq $schema.type "array" -}}
+          {{$schema = $schema.items }}
+      {{- end -}}
+      {{- if getRefFrom $schema -}}
+        {{- $import := getRefFrom $schema -}}
         {{- $hasImport := $imports | has $import }}
         {{- if not $hasImport -}}
            {{- $imports = $imports | append $import -}}
@@ -28,6 +36,9 @@ import { {{toPascalCase $import}} } from "../../dto/{{ toSnakeCase $import }}"{{
 {{- end -}}
 {{"\n"}}
 
+{{- if .Data.description }}
+// {{ .Data.description }}
+{{- end }}
 export class {{toPascalCase .Data.name}}Service {
   private http: IHttpProvider;
 
