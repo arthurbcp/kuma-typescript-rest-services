@@ -1,27 +1,5 @@
-{{$base := . }}
-
-#  Global variables to be used in all the templates.
-global:
-  projectName: "myproject"
-  projectRepository: "gihub.com/arthurbcp/ts-test-services"
-  projectDescription: "This is a sample project"
-
-# Structure of folders and files that will be generated
+{{$base := .data.apiData}}
 structure:
-  src:
-      index.ts:
-        template: Index.gtpl
-      providers:
-        http:
-          index.ts:
-            template: ProviderExporter.gtpl
-            
-          http_provider.ts:
-            template: HttpProvider.gtpl
-          http_provider_interface.ts:
-            template: HttpProviderInterface.gtpl
-          dto.ts:
-            template: HttpProviderDTO.gtpl
       dto:
         index.ts:
           template: DTOExporter.gtpl
@@ -70,8 +48,3 @@ structure:
                     {{end}}
               {{end}}
         {{end}}
-
-  package.json:
-    template: PackageJson.gtpl
-  tsconfig.json:
-    template: TsConfig.gtpl

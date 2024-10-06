@@ -8,6 +8,7 @@ initial:
   - create:
       from: .kuma-files/base.yaml
   - log: Base structure created successfully!
+  - cmd: npm i
   - input:
       label: "Enter the local file or the file URL in the Open API 2.0 format with the data you want to generate the library:"
       out: swagger
@@ -16,5 +17,4 @@ initial:
       out: apiData
   - create:
       from: .kuma-files/from-swagger.yaml
-  - cmd: npm i
   - cmd: npm run format
