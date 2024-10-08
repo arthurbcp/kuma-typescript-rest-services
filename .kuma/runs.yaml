@@ -8,7 +8,7 @@ initial:
         label: "What is your project repository?"
         out: projectRepository
     - create:
-        from: .kuma-files/base.yaml
+        from: base.yaml
     - log: Base structure created successfully!
     - input:
         label: "Enter the local file or the file URL in the Open API 2.0 format with the data you want to generate the library:"
@@ -17,6 +17,6 @@ initial:
         from: "{{.data.swagger}}"
         out: apiData
     - create:
-        from: .kuma-files/from-swagger.yaml
+        from: from-swagger.yaml
     - cmd: npm i
     - cmd: npm run format

@@ -3,16 +3,16 @@ structure:
       src:
         dto:
           index.ts:
-            template: DTOExporter.gtpl
+            template: templates/DTOExporter.gtpl
             data: 
               {{range $name, $prop := $base.definitions }}{{ if eq $prop.type "object" }}
                 - {{ $name }}
               {{end}}{{end}}
               
           {{range $name, $prop := $base.definitions }}{{ if eq $prop.type "object" }}{{ toSnakeCase $name }}.ts:
-            template: DTO.gtpl
+            template: templates/DTO.gtpl
             includes:
-              - TypeResolver.gtpl
+              - templates/TypeResolver.gtpl
             data:
               name: {{ $name }}
               {{ range toYaml . }}{{ . }}
@@ -20,13 +20,13 @@ structure:
           {{end}}{{end}}
         services:
           builder.ts:
-            template: ServiceBuilder.gtpl
+            template: templates/ServiceBuilder.gtpl
             data:
               {{range $base.tags}}
               - {{.name}} 
               {{end}}
           index.ts:
-            template: ServiceExporter.gtpl
+            template: templates/ServiceExporter.gtpl
             data:
               {{range $base.tags}}
               - {{.name}}
@@ -35,10 +35,10 @@ structure:
           {{range $base.tags}}{{toSnakeCase .name}}:
             {{$tag := .}}
             service.ts:
-              template: Service.gtpl
+              template: templates/Service.gtpl
               includes:
-                - TypeResolver.gtpl
-                - ResponseTypeResolver.gtpl
+                - templates/TypeResolver.gtpl
+                - templates/ResponseTypeResolver.gtpl
               data:
                 name: {{$tag.name}}
                 description:  {{$tag.description}}
