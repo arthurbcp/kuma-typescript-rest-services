@@ -1,22 +1,33 @@
-initial:
-  description: "Initial run"
+create-services:
+  description: "Create an TypeScript type safe services and dtos for all endpoints described in an Open API 2.0 file."
   steps:
-    - input:
-        label: "What is your project name?"
-        out: projectName
-    - input:
-        label: "What is your project repository?"
-        out: projectRepository
+
+    - form:
+        description: "(1/2) Create base structure"
+        fields:
+            - input:
+                label: "What directory do you want to create the files in?"
+                out: baseDir
+            - input:
+                label: "What is your project name?"
+                out: projectName
+            - input:
+                label: "What is your project repository?"
+                out: projectRepository
+
     - create:
         from: base.yaml
     - log: Base structure created successfully!
-    - input:
-        label: "Enter the local file or the file URL in the Open API 2.0 format with the data you want to generate the library:"
-        out: swagger
+
+    - form:
+        description: "(2/2) Create services and dtos"
+        fields:
+            - input:
+                label: "Enter the local file or the file URL in the Open API 2.0 format with the data you want to generate the library:"
+                out: swagger
+                
     - load:
         from: "{{.data.swagger}}"
         out: apiData
     - create:
         from: from-swagger.yaml
-    - cmd: npm i
-    - cmd: npm run format

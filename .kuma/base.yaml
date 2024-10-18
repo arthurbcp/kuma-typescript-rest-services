@@ -5,7 +5,7 @@ global:
 
 # Structure of folders and files that will be generated
 structure:
-  src:
+  {{.data.baseDir}}:
     index.ts:
       template: templates/Index.gtpl
     providers:
@@ -19,8 +19,3 @@ structure:
           template: templates/HttpProviderInterface.gtpl
         dto.ts:
           template: templates/HttpProviderDTO.gtpl
-
-  package.json:
-    template: templates/PackageJson.gtpl
-  tsconfig.json:
-    template: templates/TsConfig.gtpl
